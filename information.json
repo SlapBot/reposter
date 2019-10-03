@@ -1,0 +1,46 @@
+{
+  "leads": [
+    {
+      "facebook": {
+        "name": "Earthian",
+        "page_id": "1855714958090094",
+        "token": "",
+        "message": false
+      },
+      "subreddits":[
+        {
+          "name": "earthporn"
+        },
+        {
+          "name": "earthporngifs"
+        }
+      ]
+    },
+    {
+      "facebook": {
+        "name": "Otterance",
+        "page_id": "264385350745645",
+        "token": "",
+        "message": false
+      },
+      "subreddits": [
+        {
+          "name": "otters"
+        }
+      ]
+    },
+    {
+      "facebook": {
+        "name": "Stephanie Virtual Assistant",
+        "page_id": "319363778501603",
+        "token": "",
+        "message": true
+      },
+      "subreddits": [
+        {
+          "name": "ProgrammerHumor"
+        }
+      ]
+    }
+  ]
+}
