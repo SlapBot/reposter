@@ -2,6 +2,25 @@
 
 A framework to manage, monitor and deploy marketing in social-media by re-posting content from one place to the another.
 
+- [Motivation](#motivation)
+- [Features](#features)
+- [Installation](#installation)
+    - [Pre-Requisites](#pre-requisites)
+    - [Application Setup](#application-setup)
+    - [Authentication Setup](#authentication-setup)
+- [Usage](#usage)
+    - [Periodic-Posting](#periodic-posting)
+    - [Advanced Setup](#advanced-setup)
+- [Why?](#why)
+
+## Motivation
+
+I wanted a setup that could be give me an entire control over content creation in a programmable automated way. With this framework, I can add as many as content retrievers and submitters as possible and create any kind of dynamic programmable workflow between them.
+
+So for example, I could have reddit -> multiple facebook pages, twitter, instagram pages content submission, or tumblr, reddit, custom website -> Multiple facebook pages, twitter, etc. without really worrying about the underlying integration part.
+
+Consider it like a free zapier across social media handle content management.
+
 ![](https://github.com/SlapBot/reposter/blob/master/screenshots/0.gif)
 
 ## Features
@@ -18,6 +37,12 @@ A framework to manage, monitor and deploy marketing in social-media by re-postin
 
 
 ## Installation
+
+### Pre-requisites
+
+1. Python3
+2. pip
+3. virtualenv
 
 ### Application Setup
 
@@ -48,14 +73,53 @@ A framework to manage, monitor and deploy marketing in social-media by re-postin
     - `subreddits` tag allows you to mention the subreddits from where you'd wanna retrieve the posts from.
 4. Now you must be able to run `python index.py` to automate the process of re-posting from one social media handle to another.
 
-#### Periodic Posting
+## Usage
+```
+class Reposter:
+    def __init__(self):
+        self.infoparser = infoparser
+
+    def main(self):
+        for job in self.infoparser.jobs:
+            try:
+                self.execute(job)
+            except Exception:
+                pass
+
+    def execute(self, job, tries=0, max_tries=5):
+        posts = self.get_posts(job.subreddits)
+        tries += 1
+        if not posts and tries < max_tries:
+            return self.execute(job, tries)
+        else:
+            self.submit_posts(job.facebook, posts)
+
+    @staticmethod
+    def get_posts(subreddits):
+        posts = []
+        for subreddit in subreddits:
+            pg = PostGetter(subreddit.name)
+            post = pg.get_any_post()
+            print("Got my post as %s from %s subreddit." % (post.url, subreddit.name))
+            posts.append(post)
+        return posts
+
+    @staticmethod
+    def submit_posts(social_media, posts):
+        ps = PostSubmitter(social_media.page_id, social_media.token, social_media.message)
+        for post in posts:
+            ps.submit_post(post)
+            print("Posted my post as %s for %s page." % (post.title, social_media.name))
+
+```
+### Periodic Posting
 
 1. Use a crontab to schedule your posts: `crontab -e`
 2. Add this entry `0 */3 * * * /<path-to-repository>/reposter/reposter-env/bin/python /<path-to-repository>/reposter/index.py >/dev/null 2>&1`
 3. The above added entry creates Facebook posts every 3 hours retrieved from Reddit.
 
 
-#### Advanced Setup
+### Advanced Setup
 
 1. Throughout the code you can abstract a lot of entries to the `information.json` like which posts to choose from Reddit (currently its the top rated one.)
 2. Adding new social media handles for retrieval and submission is super easy:
@@ -64,7 +128,7 @@ A framework to manage, monitor and deploy marketing in social-media by re-postin
 
 ## Why?
 
-Its one of the first pieces of software I wrote (back in 2017) when I was introduced to Python and wanted to manage social media of one of my
+Its one of the first pieces of software I wrote (back in 2017) when I was introduced to Python and wanted to manage social media handles of one of my
 Open Source Project - [Stephanie](github.com/slapbot/stephanie-va) which was programmed to make automated posts in its
 Facebook Page at [Stephanie - Facebook Page](https://www.facebook.com/Stephanie.VA17/).
 
