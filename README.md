@@ -2,7 +2,7 @@
 
 A framework to manage, monitor and deploy marketing in social-media by re-posting content from one place to the another.
 
-![](https://github.com/SlapBot/reposter/master/screenshots/0.gif)
+![](https://github.com/SlapBot/reposter/blob/master/screenshots/0.gif)
 
 ## Features
 
