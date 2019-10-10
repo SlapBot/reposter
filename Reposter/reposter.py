@@ -11,7 +11,8 @@ class Reposter:
         for job in self.infoparser.jobs:
             try:
                 self.execute(job)
-            except Exception:
+            except Exception as e:
+                print(e)
                 pass
 
     def execute(self, job, tries=0, max_tries=5):
@@ -28,8 +29,11 @@ class Reposter:
         for subreddit in subreddits:
             pg = PostGetter(subreddit.name)
             post = pg.get_any_post()
-            print("Got my post as %s from %s subreddit." % (post.url, subreddit.name))
-            posts.append(post)
+            if post:
+                print("Got my post as %s from %s subreddit." % (post.url, subreddit.name))
+                posts.append(post)
+            else:
+                print("No new post found.")
         return posts
 
     @staticmethod

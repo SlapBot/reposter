@@ -32,5 +32,8 @@ class PostGetter:
         return self.get_post(content="gif")
 
     def get_any_post(self):
-        return self.posts[0]
-        # Write your logic to get a specific post - say the most controversial? Highest Reception? Most upvotes?
+        if len(self.posts) > 0:
+            return self.posts[0]
+            # Write your logic to get a specific post - say the most controversial? Highest Reception? Most upvotes?
+        return False
+
