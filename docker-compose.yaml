@@ -1,0 +1,9 @@
+version: '3'
+services:
+  reposter:
+    image: agent-reposter
+    build:
+      context: .
+      dockerfile: Dockerfile-reposter
+    volumes:
+      - "./:/app"

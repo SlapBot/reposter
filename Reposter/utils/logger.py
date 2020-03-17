@@ -38,4 +38,5 @@ class Logger:
             j.close()
         return True
 
+
 logger = Logger()

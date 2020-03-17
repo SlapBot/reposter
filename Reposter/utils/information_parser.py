@@ -5,7 +5,7 @@ import json
 class InformationParser:
     def __init__(self, name="information.json"):
         self.filename = self.retrieve_filename(name)
-        self.json_data = self.get_json_data(self.filename)
+        self.json_data = self.get_json_data()
         self.jobs = []
         self.place_jobs(self.json_data)
 
@@ -15,12 +15,16 @@ class InformationParser:
                                                 os.pardir, os.pardir, name))
         return filename
 
-    @staticmethod
-    def get_json_data(filename):
-        with open(filename, "r") as j:
+    def get_json_data(self):
+        with open(self.filename, "r") as j:
             json_data = json.load(j)
-            j.close()
         return json_data
+
+    def write_json_data(self, data):
+        with open(self.filename, "w") as j:
+            json.dump(data, j, indent=4)
+        self.json_data = self.get_json_data()
+        return True
 
     def place_jobs(self, json_data):
         for data in json_data['leads']:
